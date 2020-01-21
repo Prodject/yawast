@@ -1,0 +1,134 @@
+name: Python package
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - name: Debug Info - Github
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+
+    - name: Debug Info - Env
+      run: set
+      shell: bash {0}
+
+    - name: Debug Info - Runner
+      env:
+        RUNNER_CONTEXT: ${{ toJson(runner) }}
+      run: echo "$RUNNER_CONTEXT"
+
+    - uses: actions/checkout@v1
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade pipenv
+        pipenv sync --dev
+      shell: bash {0}
+
+    - name: Setup Selenium (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        choco install chromedriver --version=77.0.3865.400
+        pipenv run where chromedriver
+      shell: bash {0}
+
+    - name: Setup Selenium (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        CHROME_STRING=$(/usr/bin/google-chrome-stable --version) \
+          && CHROME_VERSION_STRING=$(echo "${CHROME_STRING}" | grep -oP "\d+\.\d+\.\d+\.\d+") \
+          && CHROME_MAJOR_VERSION=$(echo "${CHROME_VERSION_STRING%%.*}") \
+          && wget --no-verbose -O ./LATEST_RELEASE "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_MAJOR_VERSION}" \
+          && CD_VERSION=$(cat "./LATEST_RELEASE") \
+          && rm ./LATEST_RELEASE \
+          && CHROME_DRIVER_VERSION="${CD_VERSION}" \
+          && echo "Using chromedriver version: "$CD_VERSION \
+          && echo "Using Chrome version:       "$CHROME_VERSION_STRING \
+          && wget --no-verbose -O ./chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CD_VERSION/chromedriver_linux64.zip \
+          && unzip ./chromedriver_linux64.zip -d ./ \
+          && rm ./chromedriver_linux64.zip \
+          && chmod +x ./chromedriver
+        echo 'export PATH="/home/runner/work/yawast/yawast:$PATH"' >> ~/.bashrc
+        echo PATH=/home/runner/work/yawast/yawast:$PATH >> .env
+        export PATH="/home/runner/work/yawast/yawast:$PATH"
+        echo $PATH
+        which chromedriver
+      shell: bash {0}
+
+    - name: Setup Selenium (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        brew update
+        brew tap homebrew/cask
+        brew cask install chromedriver
+        brew cask install google-chrome
+        which chromedriver
+        sudo spctl --master-disable
+        chromedriver -v
+      shell: bash {0}
+
+    - name: Test with unittest
+      run: |
+          pipenv run python -m unittest discover
+      shell: bash {0}
+
+    - name: Run code coverage
+      if: runner.os == 'Linux'
+      run: |
+        pipenv install codecov
+        pipenv run coverage run -m unittest discover
+        pipenv run coverage xml
+        pipenv run codecov --token=93cd29e0-7aad-482c-9aee-2573c403e4e9
+      shell: bash {0}
+
+    - name: Build packages
+      run: |
+        pipenv run python setup.py sdist
+        pipenv run python setup.py bdist_wheel
+      shell: bash {0}
+
+    - name: Run version (all)
+      run: |
+        pipenv run python ./bin/yawast version
+      shell: bash {0}
+
+    - name: Build Windows EXE
+      if: runner.os == 'Windows'
+      run: |
+        pipenv run python setup.py build_exe
+        ls -ltra ./build/exe.win-amd64-3.7
+        ls -ltra ./build/exe.win-amd64-3.7/lib
+      shell: bash {0}
+
+    - name: Run version (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        ./build/exe.win-amd64-3.7/yawast.exe version
+      shell: bash {0}
+
+  build-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v1
+
+    - name: Build the Docker image
+      if: github.ref != 'refs/heads/master'
+      run: docker build . --file Dockerfile --tag yawast-ci:$(date +%s)

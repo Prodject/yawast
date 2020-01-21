@@ -1,14 +1,89 @@
-## 0.7.0 - In Development
+## 0.11.0 - 2020-01-02
 
-* [#38](https://github.com/adamcaudill/yawast/issues/38) - Report Generation Mode (work in progress)
+* [#164](https://github.com/adamcaudill/yawast/issues/164) - Apache Tomcat Version Detection via 406 Not Acceptable
+* [#181](https://github.com/adamcaudill/yawast/issues/181) - HSTS Preload Checking (via HSTSPreload.com API) 
+* [#192](https://github.com/adamcaudill/yawast/issues/192) - Check for Missing Cache Control Headers 
+* [#306](https://github.com/adamcaudill/yawast/issues/306) - External JavaScript Lacks SRI
+* [#308](https://github.com/adamcaudill/yawast/issues/308) - Telerik UI for ASP.NET AJAX RadAsyncUpload Enabled
+* [#312](https://github.com/adamcaudill/yawast/issues/312) - Make JSON Storage More Efficient
+* [#313](https://github.com/adamcaudill/yawast/issues/313) - Improve File Search for Misconfigured Servers
+* [#319](https://github.com/adamcaudill/yawast/issues/319) - Enumerate HTTP Methods
+
+## 0.10.0 - 2019-12-10
+
+* [#194](https://github.com/adamcaudill/yawast/issues/194) - Check for Duplicate HTTP Headers
+* [#261](https://github.com/adamcaudill/yawast/issues/261) - Bump sslyze from 2.1.3 to 2.1.4
+* [#272](https://github.com/adamcaudill/yawast/issues/272) - Basic Jira Detection
+* [#274](https://github.com/adamcaudill/yawast/issues/274) - Check for .DS_Store Files
+* [#285](https://github.com/adamcaudill/yawast/issues/285) - Add support for multiple cookies
+* [#288](https://github.com/adamcaudill/yawast/issues/288) - Add detection of CVE-2019-11043 (PHP RCE)
+* [#291](https://github.com/adamcaudill/yawast/issues/291) - Bug: IP Address Check Returns HTML
+
+## 0.9.0 - 2019-09-04
+
+* [#20](https://github.com/adamcaudill/yawast/issues/20) - Check for common backup files
+* [#207](https://github.com/adamcaudill/yawast/issues/207) - Specify JWT Similar To Cookie
+* [#235](https://github.com/adamcaudill/yawast/issues/235) - WordPress Plugin Local Path Disclosure
+* [#244](https://github.com/adamcaudill/yawast/issues/244) - Check for common files with phpinfo()
+* [#264](https://github.com/adamcaudill/yawast/issues/264) - Add new version command
+* [#237](https://github.com/adamcaudill/yawast/issues/237) - Bug: Connection error in check_local_ip_disclosure
+
+## 0.8.3 - 2019-08-19
+
+* [#238](https://github.com/adamcaudill/yawast/issues/238) - Bug: Error with WWW Redirect Detection
+
+## 0.8.2 - 2019-08-16
+
+* [#229](https://github.com/adamcaudill/yawast/issues/229) - Bug: No attribute 'is_absolute' on DNS information collection
+
+## 0.8.1 - 2019-08-15
+
+* [#226](https://github.com/adamcaudill/yawast/issues/226) - Bug: TLS Redirect Failure
+* [#227](https://github.com/adamcaudill/yawast/issues/227) - Bug: Improperly Handled SSL Labs Error
+
+## 0.8.0 - 2019-08-15
+
+YAWAST has been completely written, and has moved from Ruby to Python.
+
+## 0.7.2 - 2019-05-13
+
+* [#166](https://github.com/adamcaudill/yawast/issues/166) - Detect WWW/Non-WWW domain redirection
+* [#168](https://github.com/adamcaudill/yawast/issues/168) - SSL Labs: Add Supports CBC Field
+* [#170](https://github.com/adamcaudill/yawast/issues/170) - When checking HEAD, follow redirects
+* [#172](https://github.com/adamcaudill/yawast/issues/172) - Check for Apache Tomcat version via 404
+* [#173](https://github.com/adamcaudill/yawast/issues/173) - Check X-Powered-By for PHP Version
+* [#174](https://github.com/adamcaudill/yawast/issues/174) - SSL Labs: Add 1.3 0-RTT Support Field
+* [#169](https://github.com/adamcaudill/yawast/issues/169) - Bug: Error in connecting to SSL Labs
+* [#176](https://github.com/adamcaudill/yawast/issues/176) - Bug: NoMethodError (match?) in older versions of Ruby
+
+## 0.7.1 - 2019-05-07
+
+* [#37](https://github.com/adamcaudill/yawast/issues/37) - Batch Scanning Mode
+* [#165](https://github.com/adamcaudill/yawast/issues/165) - Add check for Referrer-Policy & Feature-Policy headers
+* [#167](https://github.com/adamcaudill/yawast/issues/167) - SSL Labs: Add Zombie POODLE & Related Findings
+
+## 0.7.0 - 2019-04-19
+
+* [#38](https://github.com/adamcaudill/yawast/issues/38) - JSON Output Option via `--output=` (work in progress)
 * [#133](https://github.com/adamcaudill/yawast/issues/133) - Include a Timestamp In Output
 * [#134](https://github.com/adamcaudill/yawast/issues/134) - Add options to DNS command
 * [#135](https://github.com/adamcaudill/yawast/issues/135) - Incomplete Certificate Chain Warning
 * [#137](https://github.com/adamcaudill/yawast/issues/137) - Warn on TLS 1.0
 * [#138](https://github.com/adamcaudill/yawast/issues/138) - Warn on Symantec Roots
 * [#139](https://github.com/adamcaudill/yawast/issues/139) - Add Spider Option
+* [#140](https://github.com/adamcaudill/yawast/issues/140) - Save output on cancel
+* [#141](https://github.com/adamcaudill/yawast/issues/141) - Flag --internalssl as Deprecated
+* [#147](https://github.com/adamcaudill/yawast/issues/147) - User Enumeration via Password Reset Form
+* [#148](https://github.com/adamcaudill/yawast/issues/148) - Added `--vuln_scan` option to enable new vulnerability scanner
+* [#151](https://github.com/adamcaudill/yawast/issues/151) - User Enumeration via Password Reset Form Timing Differences
+* [#152](https://github.com/adamcaudill/yawast/issues/152) - Add check for 64bit TLS Cert Serial Numbers
+* [#156](https://github.com/adamcaudill/yawast/issues/156) - Check for Rails CVE-2019-5418
+* [#157](https://github.com/adamcaudill/yawast/issues/157) - Add check for Nginx Status Page
+* [#158](https://github.com/adamcaudill/yawast/issues/158) - Add check for Tomcat RCE CVE-2019-0232
+* [#161](https://github.com/adamcaudill/yawast/issues/161) - Add WordPress WP-JSON User Enumeration
 * [#130](https://github.com/adamcaudill/yawast/issues/130) - Bug: HSTS Error leads to printing HTML
 * [#132](https://github.com/adamcaudill/yawast/issues/132) - Bug: Typo in SSL Output
+* [#142](https://github.com/adamcaudill/yawast/issues/142) - Bug: Error In Collecting DNS Information
 
 ## 0.6.0 - 2018-01-16
 

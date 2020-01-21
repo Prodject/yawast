@@ -1,0 +1,37 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+mypy = "*"
+coverage = "*"
+cx_Freeze = {git = "https://github.com/anthony-tuininga/cx_Freeze.git"}
+wheel = "*"
+black = "==19.3b0"
+requirementslib = "*"
+
+[packages]
+yawast = {editable = true,path = "."}
+sslyze = "==2.1.4"
+requests-mock = "*"
+jsonschema = "~=2.6"
+validator-collection = "*"
+requests = "*"
+publicsuffixlist = "*"
+dnspython = "*"
+urllib3 = "*"
+colorama = "*"
+nassl = "*"
+cryptography = "==2.5"
+packaging = "*"
+beautifulsoup4 = "*"
+psutil = "*"
+selenium = "*"
+setuptools = "*"
+ordered-set = "*"
+requirementslib = "*"
+python-dateutil = "*"
+
+[requires]
+python_version = "3.7"

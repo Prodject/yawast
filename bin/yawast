@@ -1,93 +1,24 @@
-#!/usr/bin/env ruby
-# encoding: UTF-8
+#!/usr/bin/env python
 
-require 'commander/import'
-require File.dirname(__FILE__) + '/../lib/yawast'
+#  Copyright (c) 2013 - 2020 Adam Caudill and Contributors.
+#  This file is part of YAWAST which is released under the MIT license.
+#  See the LICENSE file or go to https://yawast.org/license/ for full license details.
 
-program :name, 'yawast'
-program :version, Yawast::VERSION
-program :description, Yawast::DESCRIPTION
+import os
+import sys
 
-default_command :help
+if __name__ == "__main__":
+    import multiprocessing
 
-command :scan do |c|
-  c.syntax = './yawast scan URL'
-  c.description = 'Scans the provided URL'
+    multiprocessing.freeze_support()
+    if getattr(sys, "frozen", False):
+        # frozen
+        dir_ = os.path.dirname(sys.executable)
+    else:
+        # unfrozen
+        dir_ = os.path.dirname(os.path.realpath(__file__))
+    sys.path.append(os.path.abspath(os.path.join(dir_, "..")))
 
-  c.option '--nossl', 'Disables SSL checks'
-  c.option '--nociphers', 'Disables check for supported ciphers (only with --internalssl)'
-  c.option '--internalssl', 'Disable SSL Labs integration'
-  c.option '--tdessessioncount', 'Counts the number of messages that can be sent in a single session'
-  c.option '--dir', 'Enables directory search'
-  c.option '--dirrecursive', 'Recursive directory search (only with --dir)'
-  c.option '--dirlistredir', 'Show 301 redirects (only with --dir)'
-  c.option '--files', 'Performs a search for a large list of common files'
-  c.option '--srv', 'Scan for known SRV DNS Records'
-  c.option '--subdomains', 'Search for Common Subdomains'
-  c.option '--proxy STRING', String, 'HTTP Proxy Server (such as Burp Suite)'
-  c.option '--cookie STRING', String, 'Session cookie'
-  c.option '--nodns', 'Disable DNS checks'
-  c.option '--spider', 'Spider the site'
-  c.option '--output STRING', String, 'Output JSON file'
+    from yawast import __main__
 
-  c.action do |args, options|
-    Yawast::Commands::Scan.process(args, options)
-  end
-end
-
-command :head do |c|
-  c.syntax = './yawast head URL'
-  c.description = 'Scans the HEAD response of the provided URL'
-
-  c.option '--nossl', 'Disables SSL checks'
-  c.option '--nociphers', 'Disables check for supported ciphers (only with --internalssl)'
-  c.option '--internalssl', 'Disable SSL Labs integration'
-  c.option '--tdessessioncount', 'Counts the number of messages that can be sent in a single session'
-  c.option '--proxy STRING', String, 'HTTP Proxy Server (such as Burp Suite)'
-  c.option '--cookie STRING', String, 'Session cookie'
-  c.option '--nodns', 'Disable DNS checks'
-  c.option '--output STRING', String, 'Output JSON file'
-
-  c.action do |args, options|
-    Yawast::Commands::Head.process(args, options)
-  end
-end
-
-command :ssl do |c|
-  c.syntax = './yawast ssl URL'
-  c.description = 'Displays SSL information'
-
-  c.option '--nociphers', 'Disables check for supported ciphers (only with --internalssl)'
-  c.option '--internalssl', 'Disable SSL Labs integration'
-  c.option '--tdessessioncount', 'Counts the number of messages that can be sent in a single session'
-  c.option '--nodns', 'Disable DNS checks'
-
-  c.action do |args, options|
-    Yawast::Commands::Ssl.process(args, options)
-  end
-end
-
-command :cms do |c|
-  c.syntax = './yawast cms URL'
-  c.description = 'Detect the CMS in use'
-
-  c.option '--proxy STRING', String, 'HTTP Proxy Server (such as Burp Suite)'
-  c.option '--cookie STRING', String, 'Session cookie'
-
-  c.action do |args, options|
-    Yawast::Commands::Cms.process(args, options)
-  end
-end
-
-command :dns do |c|
-  c.syntax = './yawast dns URL'
-  c.description = 'Gets information about the server DNS configuration'
-
-  c.option '--srv', 'Scan for known SRV DNS Records'
-  c.option '--subdomains', 'Search for Common Subdomains'
-  c.option '--output STRING', String, 'Output JSON file'
-
-  c.action do |args, options|
-    Yawast::Commands::DNS.process(args, options)
-  end
-end
+    __main__.main()
